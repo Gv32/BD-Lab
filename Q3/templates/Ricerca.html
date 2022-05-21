@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ricerca</title>
+</head>
+<body bgcolor="#DCDCDC">
+    <h1 align="center">Informazioni Posizionamento Ciclista</h1>
+    <form method="GET" action="ricercaC">
+
+        <h4 align="center">Codice Ciclista:</h4>
+        <tr>
+            <p align="center">
+                <td>
+                    <select name="CodC" style="width:200px">
+                        {% for Ciclisti in Ciclista %}
+                            <option value="{{ Ciclisti['CodC'] }}">{{ Ciclisti['CodC'] }}</option>
+                        {% endfor %}
+                    </select>
+                </td>
+        </tr>
+
+        <h4 align="center">Codice Tappa: </h4>
+        <p align="center">
+            <input type="number" , name="CodT" , size="24" , maxlength="50">
+
+        <br>
+        <br>
+            <input type="submit" style="background-color:	#9ACD32; border-color:#9ACD32; width:200px" value="Visualizza">
+    </form>
+</body>
+</html>

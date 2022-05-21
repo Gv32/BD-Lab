@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Nuovo Ciclista</title>
+</head>
+<body bgcolor="#DCDCDC">
+    <h1 align="center">Inserimento Nuovo Ciclista</h1>
+    <form method="GET" action="inserimentoC">
+
+        <h4 align="center">Codice Ciclista:</h4>
+        <p align="center">
+            <input type="number" , name="CodC" , size="24" , maxlength="50">
+
+        <h4 align="center">Nome Ciclista: </h4>
+        <p align="center">
+            <input type="text" , name="Nome" , size="24" , maxlength="50">
+
+        <h4 align="center">Cognome Ciclista: </h4>
+        <p align="center">
+            <input type="text" , name="Cognome" , size="24" , maxlength="50">
+
+        <h4 align="center">Nazionalita Ciclista: </h4>
+        <p align="center">
+            <input type="text" , name="Nazionalita" , size="24" , maxlength="50">
+
+        <h4 align="center">Codice Squadra: </h4>
+        <tr>
+            <p align="center">
+                <td>
+                <select name="CodS" style="width:200px">
+                    {% for Codici in CodiciS %}
+                        <option value="{{ Codici['CodS'] }}">{{ Codici['CodS'] }}</option>
+                    {% endfor %}
+                </select>
+                </td>
+        </tr>
+
+
+        <h4 align="center">Anno di Nascita Ciclista: </h4>
+        <p align="center">
+            <input type="number" , name="AnnoNascita" , size="24" , maxlength="50">
+        <p align="center">
+        <br>
+            <input type="submit" style="background-color:	#9ACD32; border-color:#9ACD32; width:200px" value="Inserisci">
+    </form>
+</body>
+</html>
