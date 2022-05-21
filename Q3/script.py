@@ -40,16 +40,29 @@ def InserimentoC():
     dbname = "Campionato_Ciclistico"
     engine = create_engine("%s://%s:%s@%s/%s" % (dialect, username, password, host, dbname))
     
-    codC = int(request.args.get('CodC'))
+    codC = request.args.get('CodC')
     nome = request.args.get('Nome')
     cognome = request.args.get('Cognome')
     naz = request.args.get('Nazionalita')
-    codS = int(request.args.get('CodS'))
-    annoN = int(request.args.get('AnnoNascita'))
+    codS = request.args.get('CodS')
+    annoN = request.args.get('AnnoNascita')
+
+    if codC.isnumeric() == False or codS.isnumeric() == False or annoN.isnumeric() == False:
+        errore = "Inserire un campo numerico"
+        return render_template("errore.html", error_message=errore)
+        
+    codC = int(codC)
+    codS = int(codS)
+    annoN = int(annoN)
+
+    if codC <=0 or codS <=0:
+        errore = "I Parametri non possono essere negativi o nulli"
+        return render_template("errore.html", error_message=errore)
 
     if annoN > 2000 or annoN < 1900:
         errore = "L'anno inserito non e' valido, inserire una data tra il 1900 e il 2000"
         return render_template("errore.html", error_message=errore)
+
     try:
         con = engine.connect()
         query = "SELECT CodS\
@@ -126,11 +139,23 @@ def InserimentoT():
     dbname = "Campionato_Ciclistico"
     engine = create_engine("%s://%s:%s@%s/%s" % (dialect, username, password, host, dbname))
 
-    codC = int(request.args.get('CodC'))
-    codT = int(request.args.get('CodT'))
-    ed = int(request.args.get('Edizione'))
-    pos = int(request.args.get('Posizione'))
+    codC = request.args.get('CodC')
+    codT = request.args.get('CodT')
+    ed = request.args.get('Edizione')
+    pos = request.args.get('Posizione')
 
+    if codC.isnumeric() == False or codT.isnumeric() == False or ed.isnumeric() == False or pos.isnumeric() == False:
+        errore = "Inserire un campo numerico"
+        return render_template("errore.html", error_message=errore)
+        
+    codC = int(codC)
+    codT = int(codT)
+    ed = int(ed)
+    pos = int(pos)  
+
+    if codC <= 0 or codT <= 0 or ed <= 0 or pos <= 0:
+        errore = "I Parametri non possono essere negativi o nulli"
+        return render_template("errore.html", error_message=errore)
     
 
     try:
@@ -212,7 +237,7 @@ def Visualizza_Pos():
         return render_template('errore.html', error_message=errore)
 
 
-@app.route("/ricercaC")
+@app.route("/ricercaC", methods=["GET"])
 def Ricerca():
     dialect = "mysql"
     username = "root"
@@ -244,7 +269,8 @@ def Ricerca():
                  Where C.CodC = ('%d')\
                     and CodT = ('%d')\
                     and C.CodC = CI.CodC\
-                    and C.CodS = S.CodS" % (codC,codT)
+                    and C.CodS = S.CodS\
+                 Order By Edizione Asc" % (codC,codT)
         risultato = con.execute(query)
         header = risultato.keys()
         con.close()
